@@ -1,4 +1,9 @@
-# Generate the histogram
+
+library(ggplot2)
+library(plotly)
+library(htmlwidgets)
+
+# Create the histogram
 p <- ggplot(bigclass, aes(x = Math)) +
   geom_histogram(binwidth = 50, fill = "#0072B2", color = "white") +
   labs(
@@ -8,16 +13,18 @@ p <- ggplot(bigclass, aes(x = Math)) +
   ) +
   theme_minimal() +
   theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title = element_text(size = 18),
-    axis.text = element_text(size = 14),
-    panel.background = element_rect(fill = "white", colour = NA),
-    plot.background = element_rect(fill = "white", colour = NA)
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "white", color = NA),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18),
+    axis.text.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14)
   )
 
-# Save the plot as an HTML widget
-htmlwidgets::saveWidget(
-  plotly::ggplotly(p), 
-  file = file.path("media", "plots", "math_scores_histogram.html"),
-  selfcontained = TRUE
-)
+# Convert to plotly object
+p_plotly <- ggplotly(p)
+
+# Save as HTML widget
+output_html_path <- "media/plots/math_scores_histogram.html"
+saveWidget(p_plotly, file = output_html_path, selfcontained = TRUE)
+
